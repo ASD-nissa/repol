@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head th:replace="mode :: head(~{::title})">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>归档</title>
+    <link rel="stylesheet" href="../static/css/semantic.min.css" >
+    <link rel="stylesheet" href="../static/css/me.css">
+</head>
+<body>
+<nav th:replace="mode :: menu(4,'Lirenmi')" class="ui inverted segment m-padd-min">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">Lirenmi</h2>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini home icon"></i> 首页</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini idea icon"></i> 分类</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini tags icon"></i> 标签</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini clone icon"></i> 归档</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini info icon"></i> 关于我</a>
+            <div class="m-item right m-moblie-hide  item">
+                <div class="ui icon inverted input">
+                    <input type="text" placeholder="Searh....">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-moble-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+<div class="m-container-small">
+    <div class="ui container">
+        <div class="ui top attached segment">
+            <div class="ui middle aligned two column grid">
+                <div class="column">
+                    <h3 class="ui teal header">归档</h3>
+                </div>
+                <div class="right aligned column">
+                    共<h2 th:text="${count}" class="ui orange header m-c-inline-block">10</h2>篇
+                </div>
+            </div>
+        </div>
+        <div th:each="item : ${mapBLog}" class="m-margin-top-tiny">
+            <h2 th:text="${item.key}" class="ui center aligned header">2018</h2>
+            <div class="ui fluid vertical menu">
+                <a th:each="blog : ${item.value}" th:href="@{/blog/{id}(id=${blog.id})}" href="#" target="_blank" class="item"><span><i class="mini teal circle icon"></i>
+                    <span th:text="${blog.title}">测试</span>
+               <div th:text="${#dates.format(blog.updateTime,'MM-dd')}" class="ui mini teal basic left pointing label">2月01</div>
+               </span>
+                    <div th:text="${blog.flag}" class="ui orange basic left pointing label">原创</div>
+                </a>
+            </div>
+        </div>
+
+        <!--/*-->
+        <h2 class="ui center aligned header">2017</h2>
+        <div class="ui fluid vertical menu">
+           <a href="#" target="_blank" class="item"><span><i class="mini teal circle icon"></i>测试
+           <div class="ui mini teal basic left pointing label">2月01</div>
+           </span>
+           <div class="ui orange basic left pointing label">原创</div>
+           </a>
+        </div>
+        <!--*/-->
+
+    </div>
+</div>
+
+<footer th:replace="mode :: footer" class="ui inverted vertical segment m-marging-top">
+    <div class="ui center aligned container">
+        <div class="ui divided inverted grid stackable">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../static/images/wei.png" width="129" height="129">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="five wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+        </div>
+        <div class="ui inverted section divided"></div>
+    </div>
+</footer>
+
+<div th:replace="mode :: kanban"></div>
+
+<div th:replace="mode :: js">
+<script src="../static/js/jquery.min.js"></script>
+<script src="../static/js/semantic.min.js"></script>
+</div>
+<script>
+    $(".menu.toggle").click(function () {
+        $('.m-item ').toggleClass('m-moblie-hide');
+    });
+</script>
+</body>
+</html>

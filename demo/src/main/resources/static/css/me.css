@@ -1,0 +1,151 @@
+.m-padd-min{
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
+}
+
+body{
+    background-image:url("../images/body-bg.png");
+}
+
+#editormd{
+    z-index: 1 !important;
+}
+
+.m-active{
+    display: inline-block !important;
+}
+
+.m-padd-mini{
+    padding: 0.3em !important;
+}
+
+.m-padd-big{
+    padding: 2em !important;
+}
+
+.m-text{
+    font-weight: 300 !important;
+    line-height: 1.8em !important;
+}
+
+.m-container{
+    max-width: 79em !important;
+    margin: auto !important;
+}
+
+.m-container-small{
+    max-width: 60em !important;
+    margin: auto !important;
+}
+
+.m-padd-top{
+    padding-top: 3em !important;
+}
+
+.m-padd-lr{
+    padding-right: 3em !important;
+    padding-left: 3em !important;
+}
+
+.m-padd-lr-r{
+    padding-right: 3em !important;
+    padding-left: 3em !important;
+}
+
+.m-padd-tb{
+    padding-top: 2em !important;
+    padding-bottom: 2em !important;
+}
+
+.m-marging-top{
+    margin-top: 3em !important;
+}
+
+.m-margin-top-tiny{
+    margin-top: 0.3em !important;
+}
+
+.m-c-inline-block{
+    display: inline-block !important;
+}
+
+.m-margin-tb{
+    margin-top:0.3em !important;
+    margin-bottom: 0.3em !important;
+}
+
+.m-marging-l{
+    margin-left: 1em !important;
+}
+
+/*position*/
+.m-top-right{
+    position: absolute;
+    right:0;
+    top:0em;
+}
+
+.m-fixed{
+    position: fixed !important;
+}
+
+.m-right{
+    right:0 !important;
+}
+
+.m-left{
+    left: 0 !important;;
+}
+
+.m-bottom{
+    bottom:0 !important;
+}
+
+/*opacity*/
+.m-opacity-tiny{
+    opacity: 0.6 !important;
+}
+
+/*color*/
+.m-black{
+    color:#333 !important;
+}
+
+.m-moble-show{
+    display:none !important;
+}
+
+.m-white{
+    background: white !important;
+}
+
+@media screen and (max-width: 768px){
+    .m-moblie-hide{
+          display: none !important;
+      }
+
+    .m-moble-show{
+        display: block !important;
+    }
+
+    .m-padd-lr-r{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .m-padd-lr-r-clean{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .m-moblie-width{
+        width: 100% !important;
+    }
+
+    .m-float-right-r{
+        display: inline-block !important;
+        float: right !important;
+    }
+}
+
+

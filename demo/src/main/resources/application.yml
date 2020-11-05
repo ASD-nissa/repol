@@ -1,0 +1,60 @@
+spring:
+  thymeleaf:
+    mode: HTML
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql:///db2?characterEncoding=utf8
+    username: root
+    password: root
+    hikari:
+      idle-timeout: 60000
+      connection-timeout: 60000
+      validation-timeout: 3000
+      login-timeout: 5
+      max-lifetime: 60000
+      maximum-pool-size: 100
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  servlet:
+    multipart:
+      max-file-size: 2GB
+      max-request-size: 5GB
+  mvc:
+    static-path-pattern: /static/**
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+
+logging:
+  level:
+    root: info
+    com:
+      example: debug
+
+  file: log/blog.log
+
+server:
+  port: 8443
+  ssl:
+    key-store-password: 12345678
+    key-store-type: PKCS12
+    key-alias: client
+    key-store: file:D:\code\java\demo\src\main\resources\client.p12
+  servlet:
+    session:
+      timeout: PT720M
+      cookie:
+        max-age: PT720M
+
+my:
+  #单位秒
+  waitTime : 60
+  #多线程池
+  corePoolSize : 10
+  maxPoolSize : 200
+  queueCapacity : 10
+  #题库定时排重时间
+  superStarWeightRemovalTime : "0 0 1 * * ?"

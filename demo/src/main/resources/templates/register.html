@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head th:replace="mode :: head(~{::title})">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册</title>
+    <link rel="stylesheet" href="../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/me.css">
+</head>
+<body>
+<div class="container" style=" max-width: 300px !important;margin: auto !important;margin-top: 10em!important;">
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <div class="ui teal image header">
+                <div class="content">用户注册</div>
+            </div>
+            <form th:action="@{/saveRegister}" th:object = "${user}" enctype="multipart/form-data" class="ui large form"  method="post">
+                <div class="ui segment">
+
+                    <div class="required field">
+                        <div class="ui left labeled action labeled">
+                            <div class="ui compact teal basic label">头像</div>
+                            <label for="fristPicture" class="ui mini basic button">
+                                <img class="imgfristPicture" src="../static/images/head.png" width="216" height="173">
+                            </label>
+                            <input class="hidden" type="file" id="fristPicture" name="file" style="display: none;"  onchange="changImg(this)">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="nickname" placeholder="请输入昵称">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="username" placeholder="请输入用户名">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input name="password" type="password" placeholder="请输入密码">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input name="confirm" type="password" placeholder="确认密码">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="mail icon"></i>
+                            <input name="email" type="email" placeholder="邮箱">
+                        </div>
+                    </div>
+
+                    <div class="center aligned container">
+                            <button class="ui fluid teal button" onclick="register()" type="button" >注册</button>
+                    </div>
+
+                    <div class="ui error message"></div>
+                    <!--/*/
+                    <div class="ui negative message" th:if="${#fields.hasErrors('nickname')}">
+                        <i class="close icon"></i>
+                        <p th:errors="*{nickname}"></p>
+                    </div>
+                    <div class="ui negative message" th:if="${#fields.hasErrors('username')}">
+                        <i class="close icon"></i>
+                        <p th:errors="*{username}"></p>
+                    </div>
+                    <div class="ui negative message" th:if="${#fields.hasErrors('password')}">
+                        <i class="close icon"></i>
+                        <p th:errors="*{password}"></p>
+                    </div>
+                    /*/-->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="mode :: js">
+    <script src="../static/js/jquery.min.js" ></script>
+    <script src="../static/js/semantic.min.js"></script>
+</div>
+<script type="text/javascript">
+    var formFields = {
+        fields : {
+            nickname : {
+                identifier : 'nickname',
+                rules : [{
+                    type : 'empty',
+                    prompt : '昵称 : 请输入昵称'
+                }]
+            },
+            username : {
+                identifier : 'username',
+                rules : [{
+                    type : 'empty',
+                    prompt : '用户名 : 请输入用户名'
+                }]
+            },
+            img : {
+                identifier : 'file',
+                rules : [{
+                    type : 'empty',
+                    prompt : '头像 : 图片不能为空'
+                }]
+            },
+
+            password : {
+                identifier : 'password',
+                rules : [{
+                    type : 'empty',
+                    prompt : '密码 : 输入密码'
+                }]
+            },
+
+            email : {
+                identifier : 'email',
+                rules : [{
+                    type : 'email',
+                    prompt : '邮箱 : 请正确输入邮箱'
+                }]
+            }
+
+        }
+    };
+
+    $('.ui.form').form(formFields);
+
+    function register() {
+        if($('[name="password"]').val() != $('[name="confirm"]').val()){
+            alert('两次密码不一样 请确认');
+        }else{
+            $('.ui.form').submit();
+        }
+    }
+
+    function changImg(obj) {
+        var file = obj.files[0];
+        if(window.FileReader){
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = function (e) {
+                $('.imgfristPicture').attr('src',e.target.result);
+            }
+        }
+    }
+</script>
+</body>
+</html>

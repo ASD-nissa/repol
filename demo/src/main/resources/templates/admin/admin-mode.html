@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head th:fragment="head(title)">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:replace="${title}">博客详情</title>
+    <link rel="stylesheet" th:href="@{/lib/css/editormd.css}">
+    <link rel="stylesheet" th:href="@{/css/semantic.min.css}">
+    <link rel="stylesheet" th:href="@{/css/me.css}">
+    <!--    -->
+<!--    <link href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yremp/editormd/css/editormd.css">-->
+</head>
+
+<body>
+<nav th:fragment="menu(n)" class="ui attached inverted segment m-padd-min">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">博客管理</h2>
+            <a href="#" th:href="@{/admin/blogs}" class="m-item m-moblie-hide item" th:classappend="${n==1} ? 'active'"><i class="mini home icon"></i> 博客管理</a>
+            <a href="#" th:href="@{/admin/types}" class="m-item m-moblie-hide item" th:classappend="${n==2} ? 'active'"><i class="mini idea icon"></i> 分类</a>
+            <a href="#" th:href="@{/admin/tags}" class="m-item m-moblie-hide item" th:classappend="${n==3} ? 'active'"><i class="mini tags icon"></i> 标签</a>
+            <a href="#" th:if="${session.user.type==1}" th:href="@{/admin/media/music}" class="m-item m-moblie-hide item" th:classappend="${n==6} ? 'active'"><i class="mini tags icon"></i> 音乐</a>
+            <a href="#" th:if="${session.user.type==1}" th:href="@{/admin/users}" class="m-item m-moblie-hide item" th:classappend="${n==4} ? 'active'"><i class="mini user icon"></i> 用户</a>
+            <a href="#" th:if="${session.user.type==1}" th:href="@{/admin/records}" class="m-item m-moblie-hide item" th:classappend="${n==5} ? 'active'"><i class="mini eye icon"></i>访问统计</a>
+            <div class="m-item m-moblie-hide right menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img th:src="@{${session.user.img}}" src="../../static/images/20.jpg" alt="" class="ui avatar image">
+                        <span th:text="${session.user.nickname}"></span>
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" th:href="@{/}" class="item">注销</a>
+                        <a th:href="@{/}" class="item">首页</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-moble-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+<div th:fragment="js_b">
+    <script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../../static/js/semantic.min.js" th:src="@{/js/semantic.min.js}"></script>
+    <script src="../../static/lib/editorMd/editormd.min.js" th:src="@{/lib/editorMd/editormd.min.js}"></script>
+</div>
+
+<div th:fragment="js">
+
+    <script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../../static/js/semantic.min.js" th:src="@{/js/semantic.min.js}"></script>
+    <script src="../../static/lib/editorMd/editormd.min.js" th:src="@{/lib/editorMd/editormd.min.js}"></script>
+
+<!--    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
+<!--    <script src="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/gh/yremp/editormd/editormd.min.js"></script>-->
+    <script src="/js/me.js"></script>
+    <script type="text/javascript">
+        if(isPc()){
+            var body = document.getElementsByTagName('body')[0];
+            var srcs = ['/lib/live2d/L2Dwidget.min.js', '/lib//live2d/L2Dconf.js'];
+            for (var i = 0; i < srcs.length; i++) {
+                var script = document.createElement('script');
+                script.src = srcs[i];
+                script.type = 'text/javascript';
+                body.appendChild(script);
+            }
+            window.onload = function () {
+                initModel();
+            }
+        }
+    </script>
+</div>
+</body>
+</html>

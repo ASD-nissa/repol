@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/admin-mode :: head(~{::title})">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>博客发布</title>
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <link rel="stylesheet" href="../../static/lib/editorMd/css/editormd.min.css">
+</head>
+<body>
+<nav th:replace="admin/admin-mode :: menu(1)" class="ui attached inverted segment m-padd-min">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">博客发布</h2>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini home icon"></i> 首页</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini idea icon"></i> 分类</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini tags icon"></i> 标签</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini clone icon"></i> 归档</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini info icon"></i> 关于我</a>
+            <div class="m-item m-moblie-hide right menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img src="../../static/images/20.jpg" alt="" class="ui avatar image">
+                    昵称
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-moble-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" class="teal active item">发布</a>
+            <a href="#" class="item">列表</a>
+        </div>
+    </div>
+</div>
+<br>
+<div>
+    <div class="ui container">
+        <form enctype="multipart/form-data"  th:object = "${blog}" id="blog-form" action="#" th:action="*{id}==null ? @{/admin/blogs} : @{/admin/blogs/{id}(id=*{id})}" method="post" class="ui form">
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <div class="ui selection compact teal basic dropdown label">
+                        <input type="hidden" name="flag" th:value="*{flag}!=null?*{flag}:'原创'">
+                        <i class="dropdown icon"></i>
+                        <div class="text">原创</div>
+                        <div class="menu">
+                            <div class="item" data-value="原创">原创</div>
+                            <div class="item" data-value="转载">转载</div>
+                            <div class="item" data-value="翻译">翻译</div>
+                        </div>
+                    </div>
+                    <input type="text" name="title" th:value="*{title}" placeholder="标题">
+                </div>
+            </div>
+
+            <div>
+                <input type="hidden" name="imgName" th:value="*{imgName}">
+            </div>
+
+            <div>
+                <input type="hidden" name="fristPicture" th:value="*{fristPicture}">
+            </div>
+            <div >
+                <input type="hidden" name="state">
+            </div>
+
+            <div class="required field">
+                <div class="ui left labeled action labeled">
+                    <label for="fristPicture" class="ui mini m-white button">
+                        <img class="imgfristPicture" src="../../static/images/fristPicture.png" width="216" height="173">
+                    </label>
+                    <input class="hidden" type="file" id="fristPicture" name="file" style="display: none;"  onchange="changImg(this)">
+                </div>
+            </div>
+
+            <div id="editormd" class="required field">
+                <textarea th:text="*{content}" name="content" style="display:none;"></textarea>
+            </div>
+            <div class="field">
+                <div id="authorDetails">
+                    <textarea th:text="*{authorDetails}" name="authorDetails" placeholder="作者描述" ></textarea>
+                </div>
+            </div>
+
+
+            <div class="two fields">
+                <div class="field">
+                    <div class="ui left labeled action input">
+                        <div class="ui compact teal basic label">分类</div>
+                        <div class="ui fluid selection dropdown m-types">
+                            <input type="hidden" th:value="${blog.type.id}" name="type.id">
+                            <div th:text="${blog.type.name}==null ? '分类' : ${blog.type.name}" class="default text">分类</div>
+                            <i class="dropdown icon"></i>
+                            <div  id="type_menu" class="menu">
+                                <div th:each="type : ${types}" class="item" th:text="${type.name}" th:data-value="${type.id}" data-value="1">java</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="ui left labeled action input">
+                        <div class="ui compact teal basic label">标签</div>
+                        <div class="ui fluid selection multiple search dropdown m-tags">
+                            <input type="hidden" name="tagIds" th:value="*{tagIds}" value="1">
+                            <div class="default text" >标签</div>
+                            <i class="dropdown icon"></i>
+                            <div id="tag_menu" class="menu">
+                                <div th:each="tag : ${tags}" class="item" th:text="${tag.name}" th:data-value="${tag.id}" data-value="1">java</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inline fields">
+                <div class="filed ">
+                    <div class="ui checkbox">
+                        <input id="recommend" name="recommend" type="hidden" th:value=*{recommend}>
+                        <input onclick="recommendC(this)" id="1" type="checkbox"  class="hidden"  th:checked="*{recommend}">
+                        <label for="1">推荐</label>
+                    </div>
+                </div>
+
+                <div class="filed m-marging-l">
+                    <div class="ui checkbox">
+                        <input id="statement" name="statement" type="hidden" th:value="*{statement}">
+                        <input onclick="statementC(this)" type="checkbox" id="info" class="statement" th:checked="*{statement}">
+                        <label for="info">转载</label>
+                    </div>
+                </div>
+
+                <div class="filed m-marging-l">
+                    <div class="ui checkbox">
+                        <input id="appreciate" name="appreciate" type="hidden" th:value="*{appreciate}">
+                        <input type="checkbox" id="3" onclick="appreciateC(this)"  class="hidden"  th:checked="*{appreciate}">
+                        <label for="3">赞赏</label>
+                    </div>
+                </div>
+
+                <div class="filed m-marging-l">
+                    <div class="ui checkbox">
+                        <input id="commentabled" name="commentabled" type="hidden" th:value="*{commentabled}">
+                        <input type="checkbox" id="4"  onclick="commentabledC(this)"  class="hidden" th:checked="*{commentabled}">
+                        <label for="4">评论</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui error message"></div>
+            <!--/*/
+            <div class="ui negative message" th:if="${#fields.hasErrors('title')}">
+                <i class="close icon"></i>
+                <p th:errors="*{title}"></p>
+            </div>
+            <div class="ui negative message" th:if="${#fields.hasErrors('content')}">
+                <i class="close icon"></i>
+                <p th:errors="*{content}"></p>
+            </div>
+            /*/-->
+
+            <div class="filed" >
+                <div class="ui right aligned container">
+                    <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                    <button type="button" id="saveButton" class="ui secondary button">保存</button>
+                    <button type="button" id="stateButton" class="ui  teal button">发布</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="mode :: footer" class="ui inverted vertical segment m-marging-top">
+    <div class="ui center aligned container">
+        <div class="ui divided inverted grid stackable">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../../static/images/wei.png" width="129" height="129">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="five wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+        </div>
+        <div class="ui inverted section divided"></div>
+    </div>
+</footer>
+
+<!--/*/<div th:replace="admin/admin-mode :: js">/*/-->
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<script src="../../static/lib/editorMd/editormd.min.js"></script>
+<!--/*/</div>/*/-->
+<script>
+    var Editor;
+    $(function () {
+        Editor = editormd('editormd',{
+            width     : "100%",
+            height    : 720,
+            toc       : true,
+            imageUpload: true, //开启图片上传
+            imageUploadURL: '/admin/upload', //图片上传后台地址
+            //atLink    : false,    // disable @link
+            //emailLink : false,    // disable email address auto link
+            todoList  : true,
+            emoji : true,
+            path      : /*[[@{/lib/editorMd/lib/}]]*/'/lib/editorMd/lib/',
+            onload: function() {
+                // 引入插件 执行监听方法
+                editormd.loadPlugin("/lib/editorMd/plugins/image-handle-paste/image-handle-paste", function(){
+                    Editor.imagePaste();
+                });
+            }
+        })
+    })
+
+    $(".menu.toggle").click(function () {
+        $('.m-item ').toggleClass('m-moblie-hide');
+    });
+
+    $('.ui .dropdown').dropdown({
+        on : 'hover'
+    });
+
+    var formFields = {
+        fields : {
+            title : {
+                identifier : 'title',
+                rules : [{
+                    type : 'empty',
+                    prompt : '标题 : 请输入标题'
+                }]
+            },
+            fristPicture : {
+                identifier : 'file',
+                rules : [{
+                    type : 'empty',
+                    prompt : '首图 : 图片不能为空'
+                }]
+            },
+
+            content : {
+                identifier : 'content',
+                rules : [{
+                    type : 'empty',
+                    prompt : '正文 : 输入正文'
+                }]
+            },
+
+            typeId : {
+                identifier : 'type.id',
+                rules : [{
+                    type : 'empty',
+                    prompt : '分类 : 选择分类'
+                }]
+            }
+        }
+    };
+
+    if($('[name="type.id"]').val() != ''){
+        delete formFields.fields.fristPicture;
+        $('.imgfristPicture').attr('src',$('[name="fristPicture"]').val());
+    }
+    
+    $('.ui.form').form(formFields);
+
+    $('#saveButton').click(function () {
+       $("[name='state']").val(false);
+       $('#blog-form').submit();
+    });
+
+    $('#stateButton').click(function () {
+       $("[name='state']").val(true);
+        $('#blog-form').submit();
+    });
+
+    $('.ui.dropdown.m-types').hover(function () {
+        $.getJSON("/admin/blogs/json/types",function (data) {
+            var str="";
+            for(var i=0;i<data.results.length;i++){
+                str += '<div class="item"'+'data-value="'+data.results[i].id+'">'+data.results[i].name+'</div>';
+            }
+
+            $('#type_menu.menu').html(str);
+
+        })
+    });
+
+
+    $('.ui.dropdown.m-tags').hover(function () {
+       getJsonTags();
+    })
+
+
+    function getJsonTags() {
+        $.getJSON("/admin/blogs/json/tags",function (data) {
+            var str="";
+            for(var i=0;i<data.results.length;i++){
+                str += '<div id="'+data.results[i].id+'"'+' class="item"'+'data-value="'+data.results[i].id+'">'+data.results[i].name+'</div>';
+            }
+
+            $('#tag_menu.menu').html(str);
+
+            var tagIds = $('[name="tagIds"]').val().split(",");
+            if(typeof tagIds=='object' && tagIds.constructor==Array){
+                for(var i=0;i<tagIds.length;i++){
+                    $('#'+tagIds[i]).addClass('active filtered');
+                }
+
+            }else if(tagIds.length != 0){
+                $('#'+tagIds).addClass('active filtered');
+            }
+        })
+    };
+    
+    function commentabledC(box) {
+        if(box.checked == true){
+            $('#commentabled').val(true);
+        }else{
+            $('#commentabled').val(false);
+        }
+    }
+
+    function appreciateC(box) {
+        if(box.checked == true){
+            $('#appreciate').val(true);
+        }else{
+            $('#appreciate').val(false);
+        }
+    }
+
+    function statementC(box) {
+        if(box.checked == true){
+            $('#statement').val(true);
+        }else{
+            $('#statement').val(false);
+        }
+    }
+
+    function recommendC(box) {
+        if(box.checked == true){
+            $('#recommend').val(true);
+        }else{
+            $('#recommend').val(false);
+        }
+    }
+    
+    function changImg(obj) {
+        var file = obj.files[0];
+        if(window.FileReader){
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = function (e) {
+                $('.imgfristPicture').attr('src',e.target.result);
+            }
+        }
+    }
+
+
+</script>
+</body>
+</html>

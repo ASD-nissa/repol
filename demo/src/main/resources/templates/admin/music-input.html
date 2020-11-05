@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/admin-mode :: head(~{::title})">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>音乐新增</title>
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <link rel="stylesheet" href="../../static/lib/editorMd/css/editormd.min.css">
+</head>
+<body>
+<nav th:replace="admin/admin-mode :: menu(6)" class="ui attached inverted segment m-padd-min">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">音乐新增</h2>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini home icon"></i> 首页</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini idea icon"></i> 分类</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini tags icon"></i> 标签</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini clone icon"></i> 归档</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini info icon"></i> 关于我</a>
+            <div class="m-item m-moblie-hide right menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img src="../../static/images/20.jpg" alt="" class="ui avatar image">
+                    昵称
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-moble-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" class="teal active item">发布</a>
+            <a href="#" class="item">列表</a>
+        </div>
+    </div>
+</div>
+<br>
+<div class="m-container-small">
+    <div class="ui container">
+        <form action="#" method="post" enctype="multipart/form-data" class="ui form">
+            <div class="ui message" th:unless="${#strings.isEmpty(message)}">
+                <i class="close icon"></i>
+                <P th:text="${message}"></P>
+            </div>
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <div class="ui selection compact teal basic dropdown label">
+                        <div class="text">文件</div>
+                    </div>
+                    <label for="file" class="ui basic button file">请选择文件</label>
+                    <input type="file"  id="file" name="file" multiple="multiple" placeholder="音乐文件" style="display: none">
+                </div>
+            </div>
+
+            <div class="ui field grid">
+                <div class="ten wide column"
+                     style="padding-left: 0; padding-right: 0; margin-bottom: 0px;">
+                    <div class="progress progress-striped " style="width:100%;border: #0a001f 1px solid;display: none;border-radius:25px;overflow: hidden">
+                        <div id="progressBar" class="progress-bar progress-bar-success"
+                             role="progressbar" aria-valuemin="0" aria-valuenow="0"
+                             aria-valuemax="100" style="width: 0%;background: #0d71bb;display: none;opacity: 0.5;text-align: center">0%</div>
+                    </div>
+                </div>
+                <!-- 显示上传速度 -->
+                <div id="showInfo" class="left aligned six wide column"></div>
+            </div>
+
+            <div id="showFieInfo" class="field">
+                <label name="upfileName"></label><br />
+                <label name="upfileSize"></label><br />
+                <label name="upfileType"></label><br />
+            </div>
+
+            <div class="ui error message"></div>
+
+            <div class="filed" >
+                <div class="ui right aligned container">
+                    <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                    <button type="button" class="ui teal button">提交</button>
+                    <button type="button" class="ui teal close button">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="mode :: footer" class="ui inverted vertical segment m-marging-top">
+    <div class="ui center aligned container">
+        <div class="ui divided inverted grid stackable">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../../static/images/wei.png" width="129" height="129">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="five wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+        </div>
+        <div class="ui inverted section divided"></div>
+    </div>
+</footer>
+
+<!--/*/<div th:replace="admin/admin-mode :: js">/*/-->
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<script src="../../static/lib/editorMd/editormd.min.js"></script>
+<script src="../../static/js/me.js"></script>
+<!--/*/</div>/*/-->
+<script>
+    $("button.ui.button").click(function () {
+        var audios = ['audio', 'mp3', 'flac', 'ncm'];
+        var file = $("#file");
+        var fileObj = file.get(0).files;
+        for (var i = 0; i < fileObj.length; i++) {
+            var fileType = fileObj[i].type;
+            if (fileType == "") {
+                fileType = fileObj[i].name.split(".");
+                fileType = fileType[fileType.length - 1];
+            }
+            if (!fileObj[i]) {
+                alert("文件为空");
+            }
+            if (!isType(audios, fileType)) {
+                alert("不是音频文件 type:" + fileType);
+                continue;
+            }
+            var processBar = $("#progressBar");
+            var closeBar = $("button.close");
+            var fileNameLab = $("label[name=upfileName]"); //<label>
+            var fileSizeLab = $("label[name=upfileSize]"); //...
+            var fileTypeLab = $("label[name=upfileType]"); //...
+            var speedLab = $("#showInfo"); //<label>
+            var url = '/admin/media/music/update';
+            var fileName = fileObj[i].name;
+            console.log(fileName);
+            var upload = UploadCommon(url, processBar, speedLab, this, closeBar, function () {
+                console.log("上传成功");
+                $('.progress.progress-striped').removeClass('m-active');
+                speedLab.text("上传完成");
+                processBar.removeClass('m-active');
+            });
+
+
+            if (fileObj[i]) {
+                var fileSize = getSize(fileObj[i].size);
+                fileNameLab.text('文件名：' + fileName);
+                fileSizeLab.text('文件大小：' + fileSize);
+                fileTypeLab.text('文件类型：' + fileObj[i].type);
+            }
+
+            var formData = new FormData();
+            formData.append('files', fileObj[i]);
+            $('.progress.progress-striped').addClass('m-active');
+            processBar.addClass('m-active');
+            upload.uploadFile(formData);
+
+        }
+    });
+
+    $("#file").on("change",function(){
+       var label = $("label.file.button");
+       label.text(this.files[0].name);
+    })
+
+    $(".menu.toggle").click(function () {
+        $('.m-item ').toggleClass('m-moblie-hide');
+    });
+
+    $('.ui .dropdown').dropdown({
+        on : 'hover'
+    });
+
+    $('.ui.form').form({
+        fields : {
+            name : {
+                identifier : 'name',
+                rules : [{
+                    type : 'empty',
+                    prompt : '名称 : 请输入分类名称'
+                }]
+            }
+
+        }
+    });
+
+    $('.icon.close').click(function () {
+        $(this)
+            .closest('.ui.message')
+            .transition('fade');
+    });
+</script>
+</body>
+</html>

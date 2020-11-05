@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head th:replace="mode :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>500</title>
+</head>
+<body>
+
+<nva th:replace="mode :: menu(0,'500')"></nva>
+<div class="m-container">
+    <div class="ui middle aligned container" >
+        <div class="ui middle aligned error message  segment" style="height: 300px !important;">
+           500:服务器内部错误
+        </div>
+    </div>
+</div>
+
+<footer th:replace="mode :: footer"></footer>
+<div th:replace="mode :: js"></div>
+
+<script>
+    $(".menu.toggle").click(function () {
+        $('.m-item ').toggleClass('m-moblie-hide');
+    });
+</script>
+
+</body>
+</html>

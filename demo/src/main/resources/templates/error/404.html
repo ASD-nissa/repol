@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="mode :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>404</title>
+</head>
+<body>
+
+<nva th:replace="mode :: menu(0,'404')"></nva>
+<div class="m-container">
+    <div class="ui middle aligned container" >
+        <div class="ui middle aligned error message  segment" style="height: 300px !important;">
+            404:你访问的内容不存在
+        </div>
+    </div>
+</div>
+<footer th:replace="mode :: footer"></footer>
+<div th:replace="mode :: js"></div>
+<script>
+    $(".menu.toggle").click(function () {
+        $('.m-item ').toggleClass('m-moblie-hide');
+    });
+</script>
+</body>
+</html>

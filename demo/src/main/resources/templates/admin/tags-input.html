@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/admin-mode :: head(~{::title})">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>标签新增</title>
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <link rel="stylesheet" href="../../static/lib/editorMd/css/editormd.min.css">
+</head>
+<body>
+<nav th:replace="admin/admin-mode :: menu(3)" class="ui attached inverted segment m-padd-min">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">分类新增</h2>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini home icon"></i> 首页</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini idea icon"></i> 分类</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini tags icon"></i> 标签</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini clone icon"></i> 归档</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini info icon"></i> 关于我</a>
+            <div class="m-item m-moblie-hide right menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img src="../../static/images/20.jpg" alt="" class="ui avatar image">
+                    昵称
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-moble-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" class="teal active item">发布</a>
+            <a href="#" class="item">列表</a>
+        </div>
+    </div>
+</div>
+<br>
+<div class="m-container-small">
+    <div class="ui container">
+        <form action="#" method="post" class="ui form" th:object = "${tag}" th:action="*{id}==null ? @{/admin/tags} : @{/admin/tags/{id}(id=*{id})}">
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <div class="ui selection compact teal basic dropdown label">
+                        <input type="hidden" value="原创">
+                        <div th:text="*{id}==null ? '名称' : '修改为'" class="text">名称</div>
+                    </div>
+                    <input type="text" name="name" placeholder="分类名称" th:value="*{name}">
+                </div>
+            </div>
+
+            <div class="ui error message"></div>
+            <!--/*/
+            <div class="ui negative message" th:if="${#fields.hasErrors('name')}">
+                <i class="close icon"></i>
+                <p th:errors="*{name}"></p>
+            </div>
+            /*/-->
+
+            <div class="filed" >
+                <div class="ui right aligned container">
+                    <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                    <button class="ui submit teal button">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="mode :: footer" class="ui inverted vertical segment m-marging-top">
+    <div class="ui center aligned container">
+        <div class="ui divided inverted grid stackable">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../../static/images/wei.png" width="129" height="129">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="five wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+        </div>
+        <div class="ui inverted section divided"></div>
+    </div>
+</footer>
+
+<!--/*/<div th:replace="admin/admin-mode :: js">/*/-->
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<script src="../../static/lib/editorMd/editormd.min.js"></script>
+<!--/*/</div>/*/-->
+<script>
+
+    $(".menu.toggle").click(function () {
+        $('.m-item ').toggleClass('m-moblie-hide');
+    });
+
+    $('.ui .dropdown').dropdown({
+        on : 'hover'
+    });
+
+    $('.ui.form').form({
+        fields : {
+            name : {
+                identifier : 'name',
+                rules : [{
+                    type : 'empty',
+                    prompt : '名称 : 请输入分类名称'
+                }]
+            }
+
+        }
+    });
+
+    $('.icon.close').click(function () {
+        $(this)
+            .closest('.ui.message')
+            .transition('fade');
+    });
+</script>
+</body>
+</html>

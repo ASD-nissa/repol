@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/admin-mode :: head(~{::title})">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>访问记录</title>
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+</head>
+<body>
+<nav th:replace="admin/admin-mode :: menu(5)" class="ui attached inverted segment m-padd-min">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">博客管理</h2>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini home icon"></i> 首页</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini idea icon"></i> 分类</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini tags icon"></i> 标签</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini clone icon"></i> 归档</a>
+            <a href="#" class="m-item m-moblie-hide item"><i class="mini info icon"></i> 关于我</a>
+            <div class="m-item m-moblie-hide right menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img src="../../static/images/20.jpg" alt="" class="ui avatar image">
+                    昵称
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-moble-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" class="item">发布</a>
+            <a href="#" class="teal active item">列表</a>
+        </div>
+    </div>
+</div>
+<br>
+<div class="m-container-small">
+    <div class="ui container">
+        <div class="ui message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <P th:text="${message}"></P>
+        </div>
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>名称</th>
+                    <th>ip</th>
+                    <th>url</th>
+                    <th>ClassMethod</th>
+                    <th>次数</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="record,iserStat : ${page.content}">
+                    <td th:text="${iserStat.count}">1</td>
+                    <td th:text="${record.name}">测试</td>
+                    <td th:text="${record.ip}">ip</td>
+                    <td th:text="${record.url}">url</td>
+                    <td th:text="${record.classMethod}">ClassMethod</td>
+                    <td th:text="${record.count}">次数</td>
+                    <td th:text="${#dates.format(record.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
+                    <td>
+                        <a href="#" th:href="@{/admin/records/{id}/delete(id=${record.id})}" class="mini ui basic red button">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <th colspan="8">
+                    <a href="#" th:unless="${page.last}" th:href="@{/admin/records(page=${page.number}+1)}" class="ui right floated mini basic button">下一页</a>
+                    <a href="#" th:unless="${page.first}" th:href="@{/admin/records(page=${page.number}-1)}" class="ui right floated mini basic button">上一页</a>
+                </th>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<footer class="ui inverted vertical segment m-marging-top">
+    <div class="ui center aligned container">
+        <div class="ui divided inverted grid stackable">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../../static/images/wei.png" width="129" height="129">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="five wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+        </div>
+        <div class="ui inverted section divided"></div>
+    </div>
+</footer>
+<div th:replace="admin/admin-mode :: js">
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+</div>
+<script>
+    $(".menu.toggle").click(function () {
+        $('.m-item ').toggleClass('m-moblie-hide');
+    });
+
+    $('.ui .dropdown').dropdown({
+        on : 'hover'
+    });
+
+    $('.icon.close').click(function () {
+        $(this)
+            .closest('.ui.message')
+            .transition('fade');
+    });
+</script>
+</body>
+</html>

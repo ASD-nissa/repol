@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+
+<head th:fragment="head(title)">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:replace="${title}">博客详情</title>
+    <link href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css" th:href="@{/css/semantic.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/prism.css" th:href="@{/css/prism.css}">
+    <link href="https://cdn.bootcss.com/tocbot/4.11.1/tocbot.css" th:href="@{/lib/css/tocbot.css}" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+    <link rel="stylesheet" href="../static/lib/APlayer-1.10.1/dist/APlayer.min.css" th:href="@{/lib/APlayer-1.10.1/dist/APlayer.min.css}">
+    <script type="text/javascript" src="../static/js/me.js" th:src="@{/js/me.js}"></script>
+    <!--<script type="text/javascript">
+        if(isPc()) {
+            var head = document.getElementsByTagName('head')[0];
+            var hrefs = ['/css/flat-ui.min.css', '/css/waifu1.css'];
+            for (var i = 0; i < hrefs.length; i++) {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = hrefs[i];
+                head.appendChild(link);
+            }
+        }
+    </script>-->
+
+</head>
+
+<!--需要网络-->
+<!--<head th:fragment="head(title)">-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <title th:replace="${title}">博客详情</title>-->
+<!--    <link href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">-->
+<!--    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="../static/css/prism.css" th:href="@{/css/prism.css}">-->
+<!--    <link href="https://cdn.bootcss.com/tocbot/4.11.1/tocbot.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">-->
+<!--    <link rel="stylesheet" href="../static/lib/APlayer-1.10.1/dist/APlayer.min.css" th:href="@{/lib/APlayer-1.10.1/dist/APlayer.min.css}">-->
+<!--    <script type="text/javascript" src="../static/js/me.js" th:src="@{/js/me.js}"></script>-->
+<!--    &lt;!&ndash;<script type="text/javascript">-->
+<!--        if(isPc()) {-->
+<!--            var head = document.getElementsByTagName('head')[0];-->
+<!--            var hrefs = ['/css/flat-ui.min.css', '/css/waifu1.css'];-->
+<!--            for (var i = 0; i < hrefs.length; i++) {-->
+<!--                var link = document.createElement('link');-->
+<!--                link.rel = 'stylesheet';-->
+<!--                link.type = 'text/css';-->
+<!--                link.href = hrefs[i];-->
+<!--                head.appendChild(link);-->
+<!--            }-->
+<!--        }-->
+<!--    </script>&ndash;&gt;-->
+
+<!--</head>-->
+<body>
+
+<nav th:fragment="menu(n,h2)" class="ui inverted segment m-padd-min">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 th:text="${h2}" class="ui teal header item">Blog</h2>
+            <a href="#" th:href="@{/}" class="m-item m-moblie-hide item" th:classappend="${n==1} ? 'active'"><i class="mini home icon"></i> 首页</a>
+            <a href="#" th:href="@{/types}" class="m-item m-moblie-hide item" th:classappend="${n==2} ? 'active'"><i class="mini idea icon"></i> 分类</a>
+            <a href="#" th:href="@{/tags}" class="m-item m-moblie-hide item" th:classappend="${n==3} ? 'active'"><i class="mini tags icon"></i> 标签</a>
+            <a href="#" th:href="@{/archives}" class="m-item m-moblie-hide item" th:classappend="${n==4} ? 'active'"><i class="mini clone icon"></i> 归档</a>
+            <a href="#" class="m-item m-moblie-hide item" th:classappend="${n==5} ? 'active'"><i class="mini info icon"></i> 关于我</a>
+            <div class="m-item right m-moblie-hide  item">
+                <form method="post" id="form_search" th:action="@{/searh}" >
+                    <div class="ui icon inverted input">
+                        <input name="query" type="text" placeholder="Search...." th:value="${query}">
+                        <i onclick="document.getElementById('form_search').submit()" class="search link icon"></i>
+                    </div>
+                </form>
+            </div>
+            <div th:if="${not #strings.isEmpty(session.user)}" class="m-item m-moblie-hide right menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img th:src="@{${session.user.img}}" src="../../static/images/20.jpg" alt="" class="ui avatar image">
+                        <span th:text="${session.user.nickname}"></span>
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+                        <a th:href="@{/admin}" class="item">管理</a>
+                    </div>
+                </div>
+            </div>
+            <a th:if="${#strings.isEmpty(session.user)}" class="m-item item m-moblie-hide" th:href="@{/admin}">管理</a>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-moble-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+<div th:fragment="content" th:each="blog : ${page.content}" class="ui m-padd-lr-r-clean padded vertical segment m-padd-big">
+    <div class="ui mobile reversed stackable grid ">
+        <div class="eleven wide column">
+            <h3 class="ui top aligned header"><a th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}" target="_blank" style="color: black !important;"></a></h3>
+            <p th:text="${blog.authorDetails}" class="m-text">测试测试测试测试测试测试测试测试测试测
+                测试测试测试测试测试测试测试测试测试测试
+                测试测试测试试测试测试测试测试测试</p>
+            <div class="ui grid stackable">
+                <div class="eleven wide column">
+                    <div class="ui horizontal link list">
+                        <div class="item">
+                            <img src="../static/images/20.jpg" th:src="@{${blog.user.img}}" width="100" height="100" class="ui avatar image">
+                            <div class="content"><a th:text="${blog.user.nickname}" class="header">Athoer</a> </div>
+                        </div>
+                        <div class="item">
+                            日期:<span th:text="${#dates.format(blog.updateTime,'yyyy-mm-dd')}">2020-10-01</span>
+                        </div>
+
+                        <div class="item">
+                            浏览次数:<span th:text="${blog.views}">222</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="right aligned five wide column">
+                    <a href="#" th:text="${blog.type.name}" th:href="@{/types/{id}(id=${blog.type.id})}" class="ui teal basic label m-padd-mini" target="_blank">认识升级</a>
+                </div>
+            </div>
+            <!--标签-->
+            <div class="column m-marging-top">
+                <div th:if="${#arrays.length(blog.tags)}>0" >
+                    <a th:each="tag : ${blog.tags}" th:href="@{/tags/{id}(id=${tag.id})}" class="ui mini teal basic left pointing label m-margin-top-tiny" th:classappend="${tag.id}==${id} ? 'teal'">
+                        <span th:text="${tag.name}">方法论</span>
+                        <div th:text="${#arrays.length(tag.blogs)}" class="detail">12</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="five wide column">
+            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
+                <img src="../static/images/20.jpg" th:src="@{${blog.fristPicture}}" class="ui rounded image">
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer th:fragment="footer" class="ui inverted vertical segment m-marging-top">
+    <div class="ui center aligned container">
+        <div class="ui divided inverted grid stackable">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img class="ui rounded image" src="../static/images/wei.png" width="129" height="129" th:src="@{images/wei.png}">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="four wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+            <div class="five wide column m-padd-top">
+                <h4 class="ui inverted header">最新博客</h4>
+                <ui class="ui inverted link list">
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                    <a class="item">用户故事</a>
+                </ui>
+            </div>
+        </div>
+        <div class="ui inverted section divided"></div>
+    </div>
+</footer>
+
+<div th:fragment="kanban">
+    <div class="waifu" id="waifu">
+    <div class="waifu-tips" style="opacity: 1;"></div>
+    <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+    <div class="waifu-tool">
+        <span class="fui-home"></span>
+        <span class="fui-chat"></span>
+        <span class="fui-eye"></span>
+        <span class="fui-user"></span>
+        <span class="fui-photo"></span>
+        <span class="fui-info-circle"></span>
+        <span class="fui-cross"></span>
+    </div>
+</div>
+</div>
+
+<div th:fragment="js">
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/semantic.min.js" th:src="@{/js/semantic.min.js}"></script>
+    <script src="../static/js/prism.js" th:src="@{/js/prism.js}"></script>
+    <script src="../static/lib/tocbot/js/tocbot.min.js" th:src="@{/lib/tocbot/js/tocbot.min.js}"></script>
+<!--    <script src="../static/lib/qrcodejs/js/qrcode.min.js" th:src="@{/lib/qrcodejs/js/qrcode.min.js}"></script>-->
+<!--    -->
+<!--    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
+<!--    <script src="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.js"></script>-->
+<!--    <script src="../static/js/prism.js" th:src="@{/js/prism.js}"></script>-->
+<!--    <script src="https://cdn.bootcss.com/tocbot/4.11.1/tocbot.min.js"></script>-->
+<!--    <script type="text/javascript" src="https://static.runoob.com/assets/qrcode/qrcode.min.js"></script>-->
+
+    <div id="aplayer"></div>
+    <script src="../static/lib/APlayer-1.10.1/dist/APlayer.min.js" th:src="@{/lib/APlayer-1.10.1/dist/APlayer.min.js}"></script>
+
+    <script>
+        if(isPc()) {
+            var body = document.getElementsByTagName('body')[0];
+            var srcs = ['/lib/live2d/L2Dwidget.min.js', '/lib//live2d/L2Dconf.js'];
+            for (var i = 0; i < srcs.length; i++) {
+                var script = document.createElement('script');
+                script.src = srcs[i];
+                script.type = 'text/javascript';
+                body.appendChild(script);
+            }
+            window.onload = function () {
+                initModel();
+            }
+        };
+        var audios;
+        $.ajax({
+            type : "get",
+            url : "/json/music/list",
+            async : false,
+            success : function(data){
+                audios = data;
+            }
+        });
+
+        const ap = new APlayer({
+            container: document.getElementById('aplayer'),
+            listFolded: true,
+            autoplay : true,
+            order : 'random',
+            listMaxHeight: 90,
+            mutex : true,
+            lrcType: 3,
+            fixed: true,
+            audio: audios
+        });
+
+        $('a[target="_blank"]').click(function () {
+           ap.pause();
+        })
+
+        $('.ui .dropdown').dropdown({
+            on : 'hover'
+        });
+    </script>
+</div>
+
+<div th:fragment="js_b">
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/semantic.min.js" th:src="@{/js/semantic.min.js}"></script>
+    <script src="../static/js/prism.js" th:src="@{/js/prism.js}"></script>
+    <script src="../static/lib/tocbot/js/tocbot.min.js" th:src="@{/lib/tocbot/js/tocbot.min.js}"></script>
+    <script src="../static/lib/qrcodejs/js/qrcode.min.js" th:src="@{/lib/qrcodejs/js/qrcode.min.js}"></script>
+    <script src="../static/lib/live2d/live2d.min.js" th:src="@{/js/live2d.min.js}"></script>
+    <script src="../static/lib/live2d/waifu-tips.js" th:src="@{/js/waifu-tips.js}"></script>
+
+    <script>
+        if(isPc()) {
+            var body = document.getElementsByTagName('body')[0];
+            var srcs = ['/js/live2d.min.js', '/js/waifu-tips.js'];
+            for (var i = 0; i < srcs.length; i++) {
+                var script = document.createElement('script');
+                script.src = srcs[i];
+                script.type = 'text/javascript';
+                body.appendChild(script);
+            }
+            window.onload=function(){initModel();}
+        }
+    </script>
+</div>
+
+</body>
+</html>
